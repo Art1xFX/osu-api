@@ -8,7 +8,7 @@
     <ProjectGuid>{E8A96FB5-7E4C-4706-B104-AC65ABC1C5A7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>osu_api</RootNamespace>
+    <RootNamespace>Osu</RootNamespace>
     <AssemblyName>osu!api</AssemblyName>
     <DefaultLanguage>ru-RU</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
