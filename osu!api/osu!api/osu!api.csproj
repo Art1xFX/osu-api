@@ -39,7 +39,6 @@
   <ItemGroup>
     <Compile Include="Api.cs" />
     <Compile Include="Beatmap.cs" />
-    <Compile Include="Class1.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="Event.cs" />
     <Compile Include="Game.cs" />
