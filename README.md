@@ -22,7 +22,7 @@ Parameter "u" can be string (username)
 ```c#
 var user = await osuApi.GetUserAsync("Taazar");
 ```
-or long (user_id)
+or long (user_id).
 ```c#
 var user = await osuApi.GetUserAsync("6613346");
 ```
@@ -33,12 +33,12 @@ Parameter "b" - a beatmap_id (NOT beatmapset_id).
 var scores = await osuApi.GetScoresAsync(736215);
 ```
 
-### GetUserBestAsync ([/api/get_user_best](https://github.com/ppy/osu-api/wiki#apiget_userbest))
+### GetUserBestAsync ([/api/get_user_best](https://github.com/ppy/osu-api/wiki#apiget_user_best))
 ```c#
 var userBest = await osuApi.GetUserBestAsync(124493);
 ```
 
-### GetUserRecentAsync ([/api/get_user_recent](https://github.com/ppy/osu-api/wiki#apiget_userrecent))
+### GetUserRecentAsync ([/api/get_user_recent](https://github.com/ppy/osu-api/wiki#apiget_user_recent))
 ```c#
 var userRecent = await osuApi.GetUserRecentAsync(50265);
 ```
@@ -48,4 +48,4 @@ var userRecent = await osuApi.GetUserRecentAsync(50265);
 int mp;
 var match = await osuApi.GetMatchAsync(mp);
 ```
-where "mp" - id of the match
+where "mp" - id of the match.
