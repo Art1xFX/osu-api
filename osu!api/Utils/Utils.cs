@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static JsonNet.ConvertUtils;
+using static Osu.Utils.ConvertUtils;
 
-namespace JsonNet
+namespace Osu.Utils
 {
     internal static class MathUtils
     {

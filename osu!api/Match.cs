@@ -1,4 +1,4 @@
-﻿using JsonNet;
+﻿using Osu.Utils;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -6,31 +6,12 @@ using System.IO;
 
 namespace Osu
 {
+    /// <summary>
+    /// Containing match information, and player's result.
+    /// </summary>
     public class Match
     {
-        public static Match Parse(string s)
-        {
-            using (var stringReader = new StringReader(s))
-            using (var jsonReader = new JsonTextReader(stringReader))
-            {
-                return new Match(jsonReader);
-            }
-        }
-
-        public static bool TryParse(string s, out Match result)
-        {
-            try
-            {
-                result = Parse(s);
-                return true;
-            }
-            catch
-            {
-                result = null;
-                return false;
-            }
-        }
-
+        #region ~CONSTRUCTOR~
 
         internal Match(JsonTextReader jsonReader)
         {
@@ -57,10 +38,8 @@ namespace Osu
                             case "games":
                                 IList<Game> games = new List<Game>();
                                 while (jsonReader.Read())
-                                {
                                     if (jsonReader.TokenType == JsonToken.StartObject)
                                         games.Add(new Game(jsonReader));
-                                }
                                 this.Games = new ReadOnlyCollection<Game>(games);
                                 break;
                             default:
@@ -76,6 +55,47 @@ namespace Osu
             }
         }
 
+        #endregion
+
+        #region ~STATIC METHODS~
+
+        /// <summary>
+        /// Converts the string representation of json response to its <see cref="Match"/> equivalent. 
+        /// </summary>
+        /// <param name="s">A string containing a json response to convert.</param>
+        /// <returns>A <see cref="Match"/> equivalent to the json response contained in s.</returns>
+        public static Match Parse(string s)
+        {
+            using (var stringReader = new StringReader(s))
+            using (var jsonReader = new JsonTextReader(stringReader))
+            {
+                return new Match(jsonReader);
+            }
+        }
+
+        /// <summary>
+        /// Converts the string representation of json response to its <see cref="Match"/> equivalent. A return value indicates whether the conversion succeeded.
+        /// </summary>
+        /// <param name="s">A string containing a json response to convert.</param>
+        /// <param name="result">When this method returns, contains <see cref="Match"/> equivalent of the number contained in s, if the conversion succeeded, or null if the conversion failed. The conversion fails if the s parameter is null or String.Empty, is not of the correct format, or doesn't represent a json response. This parameter is passed uninitialized.</param>
+        /// <returns>true if s was converted successfully; otherwise, false.</returns>
+        public static bool TryParse(string s, out Match result)
+        {
+            try
+            {
+                result = Parse(s);
+                return true;
+            }
+            catch
+            {
+                result = null;
+                return false;
+            }
+        }
+
+        #endregion
+
+        #region ~PROPERTIES~
 
         public long? MatchId { get; internal set; }
 
@@ -87,5 +107,6 @@ namespace Osu
 
         public ReadOnlyCollection<Game> Games { get; internal set; }
 
+        #endregion
     }
 }

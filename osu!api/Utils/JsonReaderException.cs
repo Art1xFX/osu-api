@@ -24,11 +24,8 @@
 #endregion
 
 using System;
-using System.Globalization;
-using System.Runtime.Serialization;
-using JsonNet;
 
-namespace JsonNet
+namespace Osu.Utils
 {
     /// <summary>
     /// The exception thrown when an error occurs while reading JSON text.

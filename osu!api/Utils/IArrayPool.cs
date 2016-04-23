@@ -1,4 +1,4 @@
-﻿namespace JsonNet
+﻿namespace Osu.Utils
 {
     /// <summary>
     /// Provides an interface for using pooled arrays.

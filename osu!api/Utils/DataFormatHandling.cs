@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace JsonNet
+﻿namespace Osu.Utils
 {
     /// <summary>
     /// Specifies how dates are formatted when writing JSON text.

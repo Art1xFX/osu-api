@@ -1,19 +1,15 @@
-﻿using JsonNet;
+﻿using Osu.Utils;
 using System;
 using System.IO;
 
 namespace Osu
 {
+    /// <summary>
+    /// Containing beatmap information.
+    /// </summary>
     public class Beatmap
     {
-        public static Beatmap Parse(string s)
-        {
-            using (var stringReader = new StringReader(s))
-            using (var jsonReader = new JsonTextReader(stringReader))
-            {
-                return new Beatmap(jsonReader);
-            }
-        }
+        #region ~CONSTRUCTOR~
 
         internal Beatmap(JsonTextReader jsonReader)
         {
@@ -107,7 +103,7 @@ namespace Osu
                                 this.MaxCombo = jsonReader.ReadAsInt32();
                                 break;
                             default:
-                                
+
                                 break;
                         }
                         break;
@@ -116,9 +112,51 @@ namespace Osu
                             return;
                         break;
                 }
-            } 
+            }
         }
-        
+
+        #endregion
+
+        #region ~STATIC METHODS~
+
+        /// <summary>
+        /// Converts the string representation of json response to its <see cref="Beatmap"/> equivalent. 
+        /// </summary>
+        /// <param name="s">A string containing a json response to convert.</param>
+        /// <returns>A <see cref="Beatmap"/> equivalent to the json response contained in s.</returns>
+        public static Beatmap Parse(string s)
+        {
+            using (var stringReader = new StringReader(s))
+            using (var jsonReader = new JsonTextReader(stringReader))
+            {
+                return new Beatmap(jsonReader);
+            }
+        }
+
+        /// <summary>
+        /// Converts the string representation of json response to its <see cref="Beatmap"/> equivalent. A return value indicates whether the conversion succeeded.
+        /// </summary>
+        /// <param name="s">A string containing a json response to convert.</param>
+        /// <param name="result">When this method returns, contains <see cref="Beatmap"/> equivalent of the number contained in s, if the conversion succeeded, or null if the conversion failed. The conversion fails if the s parameter is null or String.Empty, is not of the correct format, or doesn't represent a json response. This parameter is passed uninitialized.</param>
+        /// <returns>true if s was converted successfully; otherwise, false.</returns>
+        public static bool TryParse(string s, out Beatmap result)
+        {
+            try
+            {
+                result = Parse(s);
+                return true;
+            }
+            catch
+            {
+                result = null;
+                return false;
+            }
+        }
+
+        #endregion
+
+        #region ~PROPERTIES~
+
         /// <summary>
         /// Rank status
         /// </summary>
@@ -236,5 +274,6 @@ namespace Osu
         /// </summary>
         public int? MaxCombo { get; internal set; }
 
+        #endregion
     }
 }

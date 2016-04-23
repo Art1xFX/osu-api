@@ -25,7 +25,7 @@
 
 using System;
 
-namespace JsonNet
+namespace Osu.Utils
 {
     /// <summary>
     /// Builds a string. Unlike StringBuilder this class lets you reuse it's internal buffer.

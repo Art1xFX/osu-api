@@ -1,34 +1,16 @@
-﻿using JsonNet;
+﻿using Osu.Utils;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 
 namespace Osu
 {
+    /// <summary>
+    /// Containing user information.
+    /// </summary>
     public class User
     {
-        public static User Parse(string s)
-        {
-            using (var stringReader = new StringReader(s))
-            using (var jsonReader = new JsonTextReader(stringReader))
-            {
-                return new User(jsonReader);
-            }
-        }
-
-        public static bool TryParse(string s, out User result)
-        {
-            try
-            {
-                result = Parse(s);
-                return true;
-            }
-            catch
-            {
-                result = null;
-                return false;
-            }
-        }
-
+        #region ~CONSTRUCTOR~
 
         internal User(JsonTextReader jsonReader)
         {
@@ -92,13 +74,11 @@ namespace Osu
                                 this.PPCountryRank = jsonReader.ReadAsInt32();
                                 break;
                             case "events":
-                                List<Event> events = new List<Event>();
-                                while(jsonReader.Read())
-                                {
+                                IList<Event> events = new List<Event>();
+                                while (jsonReader.Read())
                                     if (jsonReader.TokenType == JsonToken.StartObject)
                                         events.Add(new Event(jsonReader));
-                                }
-                                this.Events = events.ToArray();
+                                this.Events = new ReadOnlyCollection<Event>(events);
                                 break;
                             default:
 
@@ -113,7 +93,48 @@ namespace Osu
             }
         }
 
-        
+        #endregion
+
+        #region ~STATIC METHODS~
+
+        /// <summary>
+        /// Converts the string representation of json response to its <see cref="User"/> equivalent. 
+        /// </summary>
+        /// <param name="s">A string containing a json response to convert.</param>
+        /// <returns>A <see cref="User"/> equivalent to the json response contained in s.</returns>
+        public static User Parse(string s)
+        {
+            using (var stringReader = new StringReader(s))
+            using (var jsonReader = new JsonTextReader(stringReader))
+            {
+                return new User(jsonReader);
+            }
+        }
+
+        /// <summary>
+        /// Converts the string representation of json response to its <see cref="User"/> equivalent. A return value indicates whether the conversion succeeded.
+        /// </summary>
+        /// <param name="s">A string containing a json response to convert.</param>
+        /// <param name="result">When this method returns, contains <see cref="User"/> equivalent of the number contained in s, if the conversion succeeded, or null if the conversion failed. The conversion fails if the s parameter is null or String.Empty, is not of the correct format, or doesn't represent a json response. This parameter is passed uninitialized.</param>
+        /// <returns>true if s was converted successfully; otherwise, false.</returns>
+        public static bool TryParse(string s, out User result)
+        {
+            try
+            {
+                result = Parse(s);
+                return true;
+            }
+            catch
+            {
+                result = null;
+                return false;
+            }
+        }
+
+        #endregion
+
+        #region ~PROPERTIES~
+
         public int? UserId { get; internal set; }
 
         public string Username { get; internal set; }
@@ -163,7 +184,7 @@ namespace Osu
         public int? CountRankA { get; internal set; }
 
         /// <summary>
-        /// Uses the ISO3166-1 alpha-2 country code naming. See this for more information: http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2/wiki/ISO_3166-1_alpha-2
+        /// Uses the ISO3166-1 alpha-2 country code naming. See this for more information: https://en.wikipedia.org/wiki/ISO_3166-1
         /// </summary>
         public string Country { get; internal set; }
 
@@ -175,7 +196,8 @@ namespace Osu
         /// <summary>
         /// Contains events for this user.
         /// </summary>
-        public Event[] Events { get; internal set; }
-    }
+        public ReadOnlyCollection<Event> Events { get; internal set; }
 
+        #endregion
+    }
 }

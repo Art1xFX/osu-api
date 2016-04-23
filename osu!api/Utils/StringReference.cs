@@ -25,7 +25,7 @@
 
 using System;
 
-namespace JsonNet
+namespace Osu.Utils
 {
     internal struct StringReference
     {

@@ -1,23 +1,15 @@
-﻿using JsonNet;
+﻿using Osu.Utils;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Osu
 {
     public class Api
     {
-        #region ~FIELDS~
-
-        private List<HttpWebRequest> HttpWebRequests;
-
-        #endregion
-
         #region ~PROPERTIES~
 
         public string ApiKey { get; internal set; }
@@ -29,23 +21,6 @@ namespace Osu
         public Api(string apiKey)
         {
             ApiKey = apiKey;
-            HttpWebRequests = new List<HttpWebRequest>();
-        }
-
-        #endregion
-
-        #region ~DESTRUCTOR~
-
-        ~Api()
-        {
-            Dispose();
-        }
-
-        public void Dispose()
-        {
-            foreach (var HttpWebRequest in HttpWebRequests)
-                HttpWebRequest.Abort();
-            HttpWebRequests.Clear();
         }
 
         #endregion
@@ -345,7 +320,6 @@ namespace Osu
         public async Task<ReadOnlyCollection<Beatmap>> GetBeatmapsAsync(DateTime? since = null, long? s = null, long? b = null, object u = null, Mode? m = null, bool a = false, string h = null, int limit = 500)
         {
             var request = CreateRequestGetBeatmaps(ApiKey, since, s, b, u, m, a, h, limit);
-            HttpWebRequests.Add(request);
             var response = await request.GetResponseAsync();
             using (var stream = new StreamReader(response.GetResponseStream()))
             {
@@ -363,7 +337,6 @@ namespace Osu
         public async Task<User> GetUserAsync(object u, Mode m = 0, int? event_days = null)
         {
             var request = CreateRequestGetUser(ApiKey, u, m, event_days);
-            HttpWebRequests.Add(request);
             var response = await request.GetResponseAsync();
             using (var stream = new StreamReader(response.GetResponseStream()))
             {

@@ -1,4 +1,4 @@
-namespace JsonNet
+namespace Osu.Utils
 {
     /// <summary>
     /// Specifies the type of JSON token.

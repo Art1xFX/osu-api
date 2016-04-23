@@ -1,34 +1,15 @@
-﻿using JsonNet;
+﻿using Osu.Utils;
 using System;
 using System.IO;
 
 namespace Osu
 {
+    /// <summary>
+    /// Containing scores of the specified beatmap.    
+    /// </summary>
     public class Scores
     {
-        public static Scores Parse(string s)
-        {
-            using (var stringReader = new StringReader(s))
-            using (var jsonReader = new JsonTextReader(stringReader))
-            {
-                return new Scores(jsonReader);
-            }
-        }
-
-        public static bool TryParse(string s, out Scores result)
-        {
-            try
-            {
-                result = Parse(s);
-                return true;
-            }
-            catch
-            {
-                result = null;
-                return false;
-            }
-        }
-
+        #region ~CONSTRUCTOR~
 
         internal Scores(JsonTextReader jsonReader)
         {
@@ -104,7 +85,47 @@ namespace Osu
             }
         }
 
+        #endregion
 
+        #region ~STATIC METHODS~
+
+        /// <summary>
+        /// Converts the string representation of json response to its <see cref="Scores"/> equivalent. 
+        /// </summary>
+        /// <param name="s">A string containing a json response to convert.</param>
+        /// <returns>A <see cref="Scores"/> equivalent to the json response contained in s.</returns>
+        public static Scores Parse(string s)
+        {
+            using (var stringReader = new StringReader(s))
+            using (var jsonReader = new JsonTextReader(stringReader))
+            {
+                return new Scores(jsonReader);
+            }
+        }
+
+        /// <summary>
+        /// Converts the string representation of json response to its <see cref="Scores"/> equivalent. A return value indicates whether the conversion succeeded.
+        /// </summary>
+        /// <param name="s">A string containing a json response to convert.</param>
+        /// <param name="result">When this method returns, contains <see cref="Scores"/> equivalent of the number contained in s, if the conversion succeeded, or null if the conversion failed. The conversion fails if the s parameter is null or String.Empty, is not of the correct format, or doesn't represent a json response. This parameter is passed uninitialized.</param>
+        /// <returns>true if s was converted successfully; otherwise, false.</returns>
+        public static bool TryParse(string s, out Scores result)
+        {
+            try
+            {
+                result = Parse(s);
+                return true;
+            }
+            catch
+            {
+                result = null;
+                return false;
+            }
+        }
+
+        #endregion
+
+        #region ~PROPERTIES~
 
         public long? BeatmapId { get; internal set; }
 
@@ -146,6 +167,6 @@ namespace Osu
 
         public int? Team { get; internal set; }
 
+        #endregion
     }
-
 }

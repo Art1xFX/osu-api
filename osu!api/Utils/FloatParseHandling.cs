@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace JsonNet
+﻿namespace Osu.Utils
 {
     /// <summary>
     /// Specifies how floating point numbers, e.g. 1.0 and 9.9, are parsed when reading JSON text.
